@@ -1,16 +1,50 @@
 <script>
+    /* ATTENTION ! Dans le projet, lors de la mise en commun de nos composants, il
+       faudra faire la commande npm install uuid && npm install yup. De plus, les événements
+       sont stockés dans le localstorage sous forme de chaine de caractères donc pour les utiliser / traiter,
+       il faudra utiliser la fonction JSON.parse de Javascript.
+    */
+
+
     // Import
 
     import { v4 as uuidv4 } from 'uuid';
     import * as yup from 'yup';
+    
+    /* 
+        Cette variable est utilisée pour initialiser la bonne date. 
+        Pour m'envoyer la bonne date (date de la case sur laquelle l'utilisateur aura cliqué) 
+        pour l'événement, il faudra importer ce fichier donc mon composant ainsi :
+            import PopupCreation from './popup_creation.svelte';
+        dans la partie <script> du composant où on voudra l'utiliser. Ensuite, 
+        en attribut du composant PopupCreation, il suffira initialiser la variable 
+        "new_task.start_date" avec la bonne date au format 'yyyy-mm-dd' dès l'apparition du popup
+        (au clic sur la case jour où on veut rajouter un événement).
 
-    let display = 'flex';
-    let display_frequency = 'none';
-    let erreur = [];
+        Exemple disponible dans le fichier exemple.svelte
+        
+        Plus d'explication : https://betterprogramming.pub/6-ways-to-do-component-communications-in-svelte-b3f2a483913c - Partie 1 (Props)
+    
+    */
+    
+    export let start_date = new Date().toJSON().split("T")[0]; 
+
+    /* Variable à utiliser lors de l'import du composant pour rendre visible ou non, le popup.
+       Cette variable peut valoir 'none' ou 'flex'. C'est aussi un attribut du composant PopupCreation.
+       Comme pour la variable "new_task", il faut importer ce composant puis initialiser l'attribut display
+       du composant PopupCreation importé à 'none' ou 'flex' selon si on veut que le popup soit visible ou pas.
+
+       Exemple disponible dans le fichier exemple.svelte
+    
+    */
+
+    export let display = 'flex';
+
     let new_task = {};
-
     let usual_event = false;
     let frequency;
+    let display_frequency = 'none';
+    let erreur = [];
 
     // Schéma de contrôle des entrées du formulaire
 
@@ -47,7 +81,8 @@
         if (usual_event){
             let event = Object.assign({}, task);
 
-            for (var i=1; i < 6; i++){
+            for (var i=1; i < 6; i++){ // Le chiffre 6 a été choisi de manière aléatoire, il peut être changé
+
                     start_date = new Date(event.start_date);
 
                     if (frequency == "year")
@@ -66,6 +101,7 @@
     // Enregistre l'évenement si toutes les données sont valides, retourne une erreur sinon
 
     let validate = () => {
+        new_task.start_date = start_date;
         schema.validate(new_task, {abortEarly: false})
                 .then(() => {
                     erreur = [],
@@ -87,6 +123,8 @@
             <button type="button" id="button_close" on:click={close}>X</button>
         </div>
 
+        <!-- Traitement des éventuelles erreurs de saisie -->
+
         <div id="erreur">
             {#each erreur as err}
                 <p>{err}</p>
@@ -102,7 +140,7 @@
 
                 <p class="p_form">
                     <label for="start_date"><abbr title="(obligatoire)" class="etoile">*</abbr> Date de début : </label> 
-                    <input type="date" id="start_date" bind:value={new_task.start_date} />
+                    <input type="date" id="start_date" bind:value={start_date} />
                 </p>
                 
                 <p class="p_form">
