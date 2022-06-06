@@ -1,8 +1,11 @@
 <script>
-    import { writable } from "svelte/store";
-    let getData = localStorage;
-    console.log(getData)
+    const getData = {...localStorage};
+    // console.log(localStorage.getItem("f9290c4e-ea47-4d5f-8a46-ef752d8be32c"));
+    // probleme:  le localStorage est "undefined"
+    //Une fois les données les récuperer depuis le localstaorage, il fauit faire une filter des event qu'on aurait recuperer. 
+    //ensuite une fois la liste afficher on aurait recuperer les ids de chaque evenement pour afficher leur detail
 </script>
+
 
     <div class="popup-v-container">
         <div class="popup-content">
