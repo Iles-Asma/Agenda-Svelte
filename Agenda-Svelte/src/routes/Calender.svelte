@@ -35,10 +35,8 @@
 
   const onSelectedDate = (allowed, value) => {
     allowed && value ? onChange.bind(this, value) : noop;
-    let date_selected = new Date(year, month, value);
-    console.log(date_selected);
-    date_of_popup = `${date_selected.getFullYear()}-${date_selected.getMonth()}-${date_selected.getDate()}`;
-    console.log(date_of_popup);
+    let date_selected = `${year}-${month}-${value}`;
+    date_of_popup =  new Date(`${date_selected} UTC`).toJSON().split("T")[0];
     display_popup = "flex";
   };
 

@@ -28,7 +28,6 @@
     */
     
     export let start_date;
-    start_date = new Date(`${start_date} UTC`).toJSON().split("T")[0];
 
     /* Variable à utiliser lors de l'import du composant pour rendre visible ou non, le popup.
        Cette variable peut valoir 'none' ou 'flex'. C'est aussi un attribut du composant PopupCreation.
