@@ -15,7 +15,6 @@
   isAllowed={date => {
     const millisecs = date.getTime();
     if (millisecs + 25 * 3600 * 1000 < Date.now()) return false;
-    if (millisecs > Date.now() + 3600 * 24 * 45 * 1000) return false;
     return true;
   }} />
 

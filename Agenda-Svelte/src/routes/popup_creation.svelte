@@ -39,14 +39,11 @@
     */
 
     export let display;
-
     let new_task = {};
     let usual_event = false;
     let frequency;
     let display_frequency = 'none';
     let erreur = [];
-
-    console.log(display);
 
     // Schéma de contrôle des entrées du formulaire
 
@@ -65,7 +62,7 @@
 
     // Gère la fermeture du popup
 
-    const close = () => display = 'none'; 
+    export let close;
 
     /* Gère la fréquence de l'évenement */
 

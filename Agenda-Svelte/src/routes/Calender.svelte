@@ -12,11 +12,11 @@
   export let isAllowed;
 
   let date_of_popup = date;
+  let display_of_popup = 'none';
 
   // local vars to help in render
   const weekdays = ["Su", "Mo", "Tu", "We", "Th", "Fr", "Sa"];
   let cells;
-  let display_popup = "none";
 
   // function helpers
   const onChange = date => {
@@ -35,9 +35,11 @@
 
   const onSelectedDate = (allowed, value) => {
     allowed && value ? onChange.bind(this, value) : noop;
-    let date_selected = `${year}-${month}-${value}`;
-    date_of_popup =  new Date(`${date_selected} UTC`).toJSON().split("T")[0];
-    display_popup = "flex";
+    if (allowed && value){
+      let date_selected = `${year}-${parseInt(month + 1)}-${value}`;
+      date_of_popup =  new Date(`${date_selected} UTC`).toJSON().split("T")[0];
+      display_of_popup = 'flex';
+    }
   };
 
 </script>
@@ -107,6 +109,7 @@
         {value || ''}
       </div>
     {/each}
-     <PopupCreation display={display_popup} start_date={date_of_popup} />
   </div>
+
+	  <PopupCreation display={display_of_popup} start_date={date_of_popup} close={() => display_of_popup = 'none'} />
 </div>
