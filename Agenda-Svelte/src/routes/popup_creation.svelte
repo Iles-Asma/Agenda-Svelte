@@ -27,7 +27,8 @@
     
     */
     
-    export let start_date = new Date().toJSON().split("T")[0]; 
+    export let start_date;
+    start_date = new Date(`${start_date} UTC`).toJSON().split("T")[0];
 
     /* Variable à utiliser lors de l'import du composant pour rendre visible ou non, le popup.
        Cette variable peut valoir 'none' ou 'flex'. C'est aussi un attribut du composant PopupCreation.
@@ -38,13 +39,15 @@
     
     */
 
-    export let display = 'flex';
+    export let display;
 
     let new_task = {};
     let usual_event = false;
     let frequency;
     let display_frequency = 'none';
     let erreur = [];
+
+    console.log(display);
 
     // Schéma de contrôle des entrées du formulaire
 

@@ -1,6 +1,7 @@
 <script>
   import { getDateRows, uuid, noop } from "../date-time.js";
   import { createEventDispatcher } from "svelte";
+  import PopupCreation from "./popup_creation.svelte";
 
   const dispatch = createEventDispatcher();
 
@@ -10,9 +11,12 @@
   export let year;
   export let isAllowed;
 
+  let date_of_popup = date;
+
   // local vars to help in render
   const weekdays = ["Su", "Mo", "Tu", "We", "Th", "Fr", "Sa"];
   let cells;
+  let display_popup = "none";
 
   // function helpers
   const onChange = date => {
@@ -28,6 +32,16 @@
     value: c,
     allowed: allow(year, month, c)
   }));
+
+  const onSelectedDate = (allowed, value) => {
+    allowed && value ? onChange.bind(this, value) : noop;
+    let date_selected = new Date(year, month, value);
+    console.log(date_selected);
+    date_of_popup = `${date_selected.getFullYear()}-${date_selected.getMonth()}-${date_selected.getDate()}`;
+    console.log(date_of_popup);
+    display_popup = "flex";
+  };
+
 </script>
 
 <style>
@@ -87,7 +101,7 @@
   <div class="row">
     {#each cells as { allowed, value } (uuid())}
       <div
-        on:click={allowed && value ? onChange.bind(this, value) : noop}
+        on:click={() => onSelectedDate(allowed, value)}
         class:cell={true}
         class:highlight={allowed && value}
         class:disabled={!allowed}
@@ -95,5 +109,6 @@
         {value || ''}
       </div>
     {/each}
+     <PopupCreation display={display_popup} start_date={date_of_popup} />
   </div>
 </div>
